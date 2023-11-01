@@ -14,16 +14,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (req.method === AllowedMethods.POST) {
 		const { userId, ...material } = req.body;
-		const createdMaterial = await prisma.material.create({
-			data: {
-				...material,
-				createdBy: {
-					connect: {
-						id: userId,
+		const createdMaterial = await prisma.material
+			.create({
+				data: {
+					...material,
+					createdBy: {
+						connect: {
+							id: userId,
+						},
 					},
 				},
-			},
-		});
+			})
+			.catch(error => {
+				if (error.code === 'P2002') {
+					return res.status(409).json({
+						details: `Material with name ${material.name} already exists`,
+					});
+				}
+			});
 		return res.status(201).json(createdMaterial);
 	}
 
