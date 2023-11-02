@@ -1,17 +1,41 @@
 import React from 'react';
 
-interface ButtonProps
-	extends React.DetailedHTMLProps<
-		React.ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	> {}
+enum ButtonType {
+  primary = 'primary',
+  secondary = 'secondary',
+}
 
-export const Button = ({ children, className = '', ...rest }: ButtonProps) => {
-	return (
-		<button
-			{...rest}
-			className={`${className} px-6 p-2 bg-emerald-600 rounded-lg text-white font-bold`}>
-			{children}
-		</button>
-	);
+interface ButtonProps
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  styleType?: `${ButtonType}`;
+}
+
+export const Button = ({
+  children,
+  className = '',
+  type = 'button',
+  styleType = ButtonType.primary,
+  disabled = false,
+  ...rest
+}: ButtonProps) => {
+  const stylesClassName = {
+    [ButtonType.primary]: 'bg-emerald-600  text-white',
+    [ButtonType.secondary]:
+      'bg-white border border-emerald-600 text-emerald-600 ',
+  };
+  return (
+    <button
+      {...rest}
+      type={type}
+			disabled={disabled}
+      className={`${className} px-6 p-2 rounded-lg font-bold 
+				${stylesClassName[styleType]} ${disabled && 'opacity-60'}
+			`}
+    >
+      {children}
+    </button>
+  );
 };

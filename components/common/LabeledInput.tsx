@@ -18,7 +18,7 @@ export const LabeledInput = ({
   return (
     <label className='flex flex-col'>
       <span>{label}</span>
-      <input type={type} name={name} required={required} {...rest} className='rounded-lg bg-neutral-100 py-1 px-2'/>
+      <input type={type} name={name} required={required} {...rest} className='rounded-lg bg-neutral-100 p-2'/>
     </label>
   );
 };
