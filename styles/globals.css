@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+table {
+  @apply [&_td]:py-2 [&_th]:py-2 [&_td]:px-4 [&_th]:px-4 divide-y divide-slate-300;
+}
+
+tbody {
+  @apply divide-y divide-slate-300 text-neutral-700 text-sm;
+}
+
+tbody > tr {
+  @apply hover:bg-neutral-100;
+}
+
+.container {
+  @apply rounded-lg border-slate-300 border min-w-fit;
+}

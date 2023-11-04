@@ -37,8 +37,7 @@ const renderComponent = (
       <form
         method='dialog'
         onSubmit={handleSubmit}
-        className='flex flex-col items-center gap-4 rounded-lg 
-          border border-slate-300 h-fit p-4 mx-auto bg-white'
+        className='container flex flex-col items-center gap-4 h-fit p-4 mx-auto bg-white'
       >
         <LabeledInput
           label='Name'
@@ -54,11 +53,9 @@ const renderComponent = (
           placeholder='25'
           required
         />
-        <div className='flex gap-4'>
-          <Button type='submit' className='grow-0'>
-            Submit
-          </Button>
-          <Button className='grow-0' styleType='secondary' onClick={onClose}>
+        <div className='flex gap-2'>
+          <Button type='submit'>Submit</Button>
+          <Button styleType='secondary' onClick={onClose}>
             Cancel
           </Button>
         </div>

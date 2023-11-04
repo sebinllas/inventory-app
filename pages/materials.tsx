@@ -10,6 +10,7 @@ import { createMaterial } from '@/services/materials';
 import { formatDateString } from '@/lib/date';
 import { useRef } from 'react';
 import { Button } from '@/components/common/Button';
+import { Loading } from '@/components/common/Loading';
 
 interface MaterialResponse
   extends Omit<Material, 'UserId' | 'createdAt' | 'updatedAt'> {
@@ -45,8 +46,8 @@ const MaterialPage = () => {
       <h1 className='text-2xl text-emerald-600 font-bold text-center py-4'>
         Materials
       </h1>
-      <div className='rounded-lg border-slate-300 border overflow-hidden w-fit mx-auto py-4 px-6'>
-        <table className='[&_td]:py-2 [&_th]:py-2 [&_td]:px-4 [&_th]:px-4 divide-y divide-slate-300 '>
+      <div className='container w-fit mx-auto py-4 px-6'>
+        <table>
           <thead>
             <tr>
               <th>Id</th>
@@ -56,19 +57,21 @@ const MaterialPage = () => {
               <th>Created by</th>
             </tr>
           </thead>
-          <tbody className='divide-y divide-slate-300 text-neutral-700 text-sm'>
+          <tbody>
             <RequestResultList<MaterialResponse>
               data={data}
               isError={error}
               isLoading={isLoading}
-              errorComponent={
-                <tr>
-                  <td colSpan={4}>Failed to load materials</td>
-                </tr>
-              }
               loadingComponent={
                 <tr>
-                  <td colSpan={5}>Loading...</td>
+                  <td colSpan={5}>
+                    <Loading />
+                  </td>
+                </tr>
+              }
+              errorComponent={
+                <tr>
+                  <td colSpan={5}>Failed to load materials</td>
                 </tr>
               }
               noDataComponent={
@@ -77,7 +80,7 @@ const MaterialPage = () => {
                 </tr>
               }
               itemRenderer={(material) => (
-                <tr key={material.id} className='hover:bg-neutral-100'>
+                <tr key={material.id}>
                   <td>{material.id}</td>
                   <td>
                     {formatDateString(material.createdAt as unknown as string)}
