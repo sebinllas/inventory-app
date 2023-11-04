@@ -63,8 +63,8 @@ model Material {
 }
 
 enum Enum_MovementType {
-  ENTRADA
-  SALIDA
+  IN
+  OUT
 }
 
 model InventoryMovement {
