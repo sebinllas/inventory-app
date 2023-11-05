@@ -6,27 +6,31 @@ import { fetcher } from '@/utils/fetcher';
 import { createMovement } from '@/services/movement';
 import { NewMovement } from '@/types/movement';
 import { Material } from '@prisma/client';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import useSWR, { mutate } from 'swr';
 import { MaterialMovementsTable } from '@/components/MaterialMovementsTable';
 import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 const InventoryPage = () => {
   const userId = '1'; //hardcoded by now, will be dynamic later
   const createMovementDialogRef = useRef<HTMLDialogElement>(null);
-  const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(
-    null
-  );
+  const router = useRouter();
+
   const { data: materials } = useSWR<Material[]>(
     `${API_ROUTES.materials}`,
     fetcher
   );
 
-  const handleMaterialChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const material = materials?.find(
-      (material) => material.id === e.target.value
-    );
-    setSelectedMaterial((prevMaterial) => (material ? material : prevMaterial));
+  const selectedMaterialId = router.query.material || null;
+  const selectedMaterial = materials?.find(
+    (material) => material.id === selectedMaterialId
+  );
+  const setSelectedMaterialId = (materialId: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { material: materialId },
+    });
   };
 
   const handleCreateMovement = async (newMovement: NewMovement) => {
@@ -41,7 +45,7 @@ const InventoryPage = () => {
         })
         .then(() =>
           mutate(
-            `${API_ROUTES.movements}?material=${selectedMaterial?.id}&expand=user`
+            `${API_ROUTES.movements}?material=${selectedMaterialId}&expand=user`
           )
         );
     } catch (e) {} // eslint-disable-line no-empty
@@ -53,9 +57,9 @@ const InventoryPage = () => {
       <div className='flex flex-col gap-6 items-center justify-center'>
         <div className='flex items-center justify-center py-2 gap-6'>
           <select
-            defaultValue='default'
+            defaultValue={selectedMaterialId || 'default'}
             className='rounded-lg bg-neutral-100 p-2'
-            onChange={handleMaterialChange}
+            onChange={(e) => setSelectedMaterialId(e.target.value)}
           >
             <option value='default' disabled>
               Select a material
@@ -71,7 +75,7 @@ const InventoryPage = () => {
           </select>
           <Button
             onClick={() => createMovementDialogRef.current?.showModal()}
-            disabled={selectedMaterial === null}
+            disabled={selectedMaterialId === null}
           >
             Add movement
           </Button>

@@ -11,6 +11,7 @@ import { formatDateString } from '@/utils/date';
 import { useRef } from 'react';
 import { Button } from '@/components/common/Button';
 import { Loading } from '@/components/common/Loading';
+import Link from 'next/link';
 
 interface MaterialResponse
   extends Omit<Material, 'UserId' | 'createdAt' | 'updatedAt'> {
@@ -71,7 +72,11 @@ const MaterialPage = () => {
                 noDataComponent={<NoDataComponent />}
                 itemRenderer={(material) => (
                   <tr key={material.id}>
-                    <td>{material.id}</td>
+                    <td>
+                      <Link href={`/inventory?material=${material.id}`}>
+                        {material.id}
+                      </Link>
+                    </td>
                     <td>
                       {formatDateString(
                         material.createdAt as unknown as string
