@@ -1,5 +1,5 @@
 /* eslint-disable prefer-arrow-callback */
-import { NewMaterial } from '@/types/NewMaterial';
+import { NewMaterial } from '@/types/material';
 import React, { FormEvent, ForwardedRef, forwardRef } from 'react';
 import { Button } from './common/Button';
 import { LabeledInput } from './common/LabeledInput';

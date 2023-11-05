@@ -1,24 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { useState } from 'react';
+import { checkReqQueryValue } from '@/utils/api';
 
 enum AllowedMethods {
   GET = 'GET',
   POST = 'POST',
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-
   if (req.method === AllowedMethods.GET) {
-    const query = req.query
-    if(query && query.expand){
-      const materials = await prisma.material.findMany({
-        include:{
-          createdBy: true
-        }
-      })
-      return res.status(200).json(materials)
-    }
-    const materials = await prisma.material.findMany();
+    const query = req.query;
+    const expandUser = checkReqQueryValue({
+      param: 'expand',
+      value: 'user',
+      query,
+    });
+    const materials = await prisma.material.findMany({
+      include: {
+        createdBy: expandUser,
+      },
+    });
     return res.status(200).json(materials);
   }
 

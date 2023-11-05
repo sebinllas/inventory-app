@@ -1,5 +1,5 @@
-import { API_ROUTES } from '@/lib/api';
-import { NewMaterial } from '@/types/NewMaterial';
+import { API_ROUTES } from '@/constants/api';
+import { NewMaterial } from '@/types/material';
 
 export const createMaterial = async (
 	newMaterial: NewMaterial,

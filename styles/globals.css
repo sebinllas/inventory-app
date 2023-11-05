@@ -17,3 +17,7 @@ tbody > tr {
 .container {
   @apply rounded-lg border-slate-300 border min-w-fit;
 }
+
+.page-title {
+  @apply text-2xl text-emerald-600 font-bold text-center py-4;
+}

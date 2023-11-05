@@ -13,12 +13,19 @@ export const LabeledInput = ({
   type,
   label,
   required,
+  className = '',
   ...rest
 }: LabeledInputProps) => {
   return (
-    <label className='flex flex-col'>
+    <label className={`flex flex-col ${className}`}>
       <span>{label}</span>
-      <input type={type} name={name} required={required} {...rest} className='rounded-lg bg-neutral-100 p-2'/>
+      <input
+        type={type}
+        name={name}
+        required={required}
+        {...rest}
+        className='rounded-lg bg-neutral-100 p-2'
+      />
     </label>
   );
 };
