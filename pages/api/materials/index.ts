@@ -38,7 +38,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
         });
-
         await tx.inventoryMovement.create({
           data: {
             material: {
@@ -63,11 +62,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           error.code === 'P2002'
         ) {
           return res.status(409).json({
-            details: `Material with name ${material.name} already exists`,
+            message: `Material with name ${material.name} already exists`,
           });
         }
         return res.status(500).json({
-          details: 'Something unexpected happened, please try again',
+          message: 'Something unexpected happened, please try again',
         });
       });
   }

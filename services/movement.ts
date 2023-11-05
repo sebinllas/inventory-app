@@ -13,7 +13,7 @@ export const createMovement = async (
     body: JSON.stringify({ ...newMovement, userId }),
   });
   if (!response.ok) {
-    const { details } = await response.json();
-    throw new Error(details);
+    const { message } = await response.json();
+    throw new Error(message);
   }
 };

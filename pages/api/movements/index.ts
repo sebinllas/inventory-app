@@ -1,6 +1,7 @@
 import { checkReqQueryValue } from '@/utils/api';
 import prisma from '@/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Enum_MovementType } from '@prisma/client';
 
 enum AllowedMethods {
   GET = 'GET',
@@ -32,22 +33,58 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === AllowedMethods.POST) {
     const { userId, materialId, ...movement } = req.body;
-    const createdMovement = await prisma.inventoryMovement.create({
-      data: {
-        ...movement,
-        material: {
-          connect: {
-            id: materialId,
+    const materialUpdateOperation =
+      movement.movementType === Enum_MovementType.IN
+        ? 'increment'
+        : 'decrement';
+
+    return await prisma.$transaction(async (tx) => {
+      const material = await tx.material.findUnique({
+        where: {
+          id: materialId,
+        },
+      });
+      if (!material) {
+        return res.status(404).json({
+          message: 'Material with not found',
+        });
+      }
+      if (
+        movement.movementType === Enum_MovementType.OUT &&
+        movement.quantity > material.quantity
+      ) {
+        return res.status(400).json({
+          message: 'Material has insufficient quantity for this movement',
+        });
+      }
+
+      const createdMovement = await tx.inventoryMovement.create({
+        data: {
+          ...movement,
+          material: {
+            connect: {
+              id: materialId,
+            },
+          },
+          createdBy: {
+            connect: {
+              id: userId,
+            },
           },
         },
-        createdBy: {
-          connect: {
-            id: userId,
+      });
+      await tx.material.update({
+        where: {
+          id: materialId,
+        },
+        data: {
+          quantity: {
+            [materialUpdateOperation]: movement.quantity,
           },
         },
-      },
+      });
+      return res.status(201).json(createdMovement);
     });
-    return res.status(201).json(createdMovement);
   }
 
   return res.status(405).json({
