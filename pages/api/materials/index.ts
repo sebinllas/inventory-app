@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 import { checkReqQueryValue } from '@/utils/api';
+import { Enum_MovementType } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 enum AllowedMethods {
   GET = 'GET',
@@ -24,19 +26,42 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === AllowedMethods.POST) {
     const { userId, ...material } = req.body;
-    const createdMaterial = await prisma.material
-      .create({
-        data: {
-          ...material,
-          createdBy: {
-            connect: {
-              id: userId,
+    return prisma
+      .$transaction(async (tx) => {
+        const createdMaterial = await tx.material.create({
+          data: {
+            ...material,
+            createdBy: {
+              connect: {
+                id: userId,
+              },
             },
           },
-        },
+        });
+
+        await tx.inventoryMovement.create({
+          data: {
+            material: {
+              connect: {
+                id: createdMaterial?.id,
+              },
+            },
+            quantity: material.quantity,
+            movementType: Enum_MovementType.IN,
+            createdBy: {
+              connect: {
+                id: userId,
+              },
+            },
+          },
+        });
+        return res.status(201).json(createdMaterial);
       })
       .catch((error) => {
-        if (error.code === 'P2002') {
+        if (
+          error instanceof PrismaClientKnownRequestError &&
+          error.code === 'P2002'
+        ) {
           return res.status(409).json({
             details: `Material with name ${material.name} already exists`,
           });
@@ -45,7 +70,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           details: 'Something unexpected happened, please try again',
         });
       });
-    return res.status(201).json(createdMaterial);
   }
 
   return res.status(405).json({
