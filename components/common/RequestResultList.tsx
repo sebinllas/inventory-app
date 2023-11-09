@@ -9,7 +9,7 @@ interface RequestResultListProps<T> {
   errorComponent?: JSX.Element;
   loadingComponent?: JSX.Element;
   noDataComponent?: JSX.Element;
-  itemRenderer: (item: T) => JSX.Element;
+  itemRenderer: (item: T, index: number) => JSX.Element;
 }
 
 export const RequestResultList = <T,>({

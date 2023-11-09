@@ -30,33 +30,35 @@ export const MaterialMovementsTable = ({
         </tr>
       </thead>
       <tbody>
-        <RequestResultList<MovementResponse>
+        <RequestResultList
           data={data}
           isError={error}
           isLoading={isLoading}
           loadingComponent={<LoadingComponent />}
           noDataComponent={<NoDataComponent />}
           errorComponent={<ErrorComponent />}
-          itemRenderer={(movement) => (
-            <tr key={movement.id}>
-              <td>{movement.id}</td>
-              <td>{formatDateTimeString(movement.date)}</td>
-              <td>
-                {movement.movementType === Enum_MovementType.IN ? (
-                  <span className='text-green-500'>🡅 </span>
-                ) : (
-                  <span className='text-red-500'>🡇 </span>
-                )}
-                <span>{movement.quantity}</span>
-              </td>
-              <td>{movement.createdBy.name}</td>
-            </tr>
-          )}
+          itemRenderer={itemRenderer}
         />
       </tbody>
     </table>
   );
 };
+
+const itemRenderer = (movement: MovementResponse) => (
+  <tr key={movement.id}>
+    <td>{movement.id}</td>
+    <td>{formatDateTimeString(movement.date)}</td>
+    <td>
+      {movement.movementType === Enum_MovementType.IN ? (
+        <span className='text-green-500'>🡅 </span>
+      ) : (
+        <span className='text-red-500'>🡇 </span>
+      )}
+      <span>{movement.quantity}</span>
+    </td>
+    <td>{movement.createdBy.name}</td>
+  </tr>
+);
 
 const LoadingComponent = () => {
   return (

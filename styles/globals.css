@@ -21,3 +21,7 @@ tbody > tr {
 .page-title {
   @apply text-2xl text-emerald-600 font-bold text-center py-4;
 }
+
+.dialog {
+  @apply fixed bottom-1/2 z-50 bg-transparent backdrop:backdrop-blur-sm;
+}

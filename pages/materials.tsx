@@ -63,30 +63,14 @@ const MaterialPage = () => {
               </tr>
             </thead>
             <tbody>
-              <RequestResultList<MaterialResponse>
+              <RequestResultList
                 data={data}
                 isError={error}
                 isLoading={isLoading}
+                itemRenderer={itemRenderer}
                 loadingComponent={<LoadingComponent />}
                 errorComponent={<ErrorComponent />}
                 noDataComponent={<NoDataComponent />}
-                itemRenderer={(material) => (
-                  <tr key={material.id}>
-                    <td>
-                      <Link href={`/inventory?material=${material.id}`}>
-                        {material.id}
-                      </Link>
-                    </td>
-                    <td>
-                      {formatDateString(
-                        material.createdAt as unknown as string
-                      )}
-                    </td>
-                    <td>{material.name}</td>
-                    <td>{material.quantity}</td>
-                    <td>{material.createdBy.name}</td>
-                  </tr>
-                )}
               />
             </tbody>
           </table>
@@ -103,6 +87,18 @@ const MaterialPage = () => {
 };
 
 export default MaterialPage;
+
+const itemRenderer = (material: MaterialResponse) => (
+  <tr key={material.id}>
+    <td>
+      <Link href={`/inventory?material=${material.id}`}>{material.id}</Link>
+    </td>
+    <td>{formatDateString(material.createdAt as unknown as string)}</td>
+    <td>{material.name}</td>
+    <td>{material.quantity}</td>
+    <td>{material.createdBy.name}</td>
+  </tr>
+);
 
 const LoadingComponent = () => (
   <tr className='text-center'>

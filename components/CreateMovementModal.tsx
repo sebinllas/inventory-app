@@ -4,6 +4,7 @@ import { Button } from './common/Button';
 import { LabeledInput } from './common/LabeledInput';
 import { Enum_MovementType, Material } from '@prisma/client';
 import { NewMovement } from '@/types/movement';
+import { LabeledSelect } from './common/LabeledSelect';
 
 interface NewMovementFormProps {
   onSubmit: (material: NewMovement) => void;
@@ -33,19 +34,18 @@ const renderComponent = (
   };
 
   return (
-    <dialog
-      className='fixed bottom-1/2 z-50 bg-transparent backdrop:backdrop-blur-sm'
-      ref={ref}
-    >
-      <h2>{material.name}</h2>
+    <dialog className='dialog' ref={ref}>
       <form
         method='dialog'
         onSubmit={handleSubmit}
-        className='container flex flex-col gap-4 h-fit p-4 mx-auto bg-white'
+        className='container h-fit mx-auto bg-white p-4 gap-4 flex flex-col'
       >
-        <label className='flex flex-col'>
-          <span>Movement type</span>
-          <select
+        <h3 className='font-bold text-center'>
+          Material <span className='text-emerald-600'>{material.name}</span>
+        </h3>
+        <fieldset className='flex flex-col gap-4'>
+          <LabeledSelect
+            label='Movement type'
             name='type'
             placeholder='In or OUT'
             required
@@ -58,22 +58,22 @@ const renderComponent = (
                 {value}
               </option>
             ))}
-          </select>
-        </label>
-        <LabeledInput
-          label='Quantity'
-          type='number'
-          name='quantity'
-          placeholder='25'
-          required
-          min={1}
-        />
-        <div className='flex gap-2 justify-center'>
-          <Button type='submit'>Submit</Button>
-          <Button styleType='secondary' onClick={onClose}>
-            Cancel
-          </Button>
-        </div>
+          </LabeledSelect>
+          <LabeledInput
+            label='Quantity'
+            type='number'
+            name='quantity'
+            placeholder='25'
+            required
+            min={1}
+          />
+          <div className='flex gap-2 justify-center'>
+            <Button type='submit'>Submit</Button>
+            <Button styleType='secondary' onClick={onClose}>
+              Cancel
+            </Button>
+          </div>
+        </fieldset>
       </form>
     </dialog>
   );

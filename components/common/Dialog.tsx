@@ -1,29 +1,18 @@
-import { ReactNode } from 'react';
-import { Button } from './Button';
+import { ForwardedRef, forwardRef } from 'react';
 
-interface DialogProps {
+interface DialogProps extends React.HTMLAttributes<HTMLDialogElement> {
   children: React.ReactNode;
-  open: boolean;
-  confirmButton?: ReactNode;
-  cancelButton?: ReactNode;
 }
 
-export const Dialog = ({
-  children,
-  open,
-  confirmButton = null,
-  cancelButton = null,
-}: DialogProps) => {
-  if (!open) return null;
+const renderComponent = (
+  { children, ...rest }: DialogProps,
+  ref: ForwardedRef<HTMLDialogElement>
+) => {
   return (
-    <div className='bg-black/20 fixed top-0 left-0 right-0 bottom-0 backdrop-blur-sm'>
-      <dialog open={open} className='bg-white bottom-1/2 z-10'>
-        {children}
-        <div className='flex justify-evenly'>
-          {confirmButton}
-          {cancelButton}
-        </div>
-      </dialog>
-    </div>
+    <dialog className='dialog' ref={ref} {...rest}>
+      {children}
+    </dialog>
   );
 };
+
+export const Dialog = forwardRef(renderComponent);

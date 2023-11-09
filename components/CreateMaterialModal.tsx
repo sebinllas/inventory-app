@@ -31,7 +31,7 @@ const renderComponent = (
 
   return (
     <dialog
-      className='fixed bottom-1/2 z-50 bg-transparent backdrop:backdrop-blur-sm'
+      className='dialog'
       ref={ref}
     >
       <form
