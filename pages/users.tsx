@@ -1,12 +1,12 @@
 import { EditUserForm } from '@/components/EditUserForm';
 import { Loading } from '@/components/common/Loading';
 import { RequestResultList } from '@/components/common/RequestResultList';
-import { EditIcon } from '@/components/icons/EditIcon';
 import { API_ROUTES } from '@/constants/api';
 import { updateUser } from '@/services/user';
 import { UserResponse } from '@/types/user';
 import { fetcher } from '@/utils/fetcher';
 import { Enum_RoleName } from '@prisma/client';
+import { IconEdit } from '@tabler/icons-react';
 import { FormEvent, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR, { mutate } from 'swr';
@@ -76,7 +76,9 @@ const UsersPage = () => {
                   <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>{user.role || 'NONE'}</td>
+                  <td>
+                    <RoleBadge role={user.role} />
+                  </td>
                   <td>
                     <button
                       onClick={() => {
@@ -84,7 +86,7 @@ const UsersPage = () => {
                         editUserDialog.current?.showModal();
                       }}
                     >
-                      <EditIcon />
+                      <IconEdit />
                     </button>
                   </td>
                 </tr>
@@ -110,6 +112,22 @@ const UsersPage = () => {
 };
 
 export default UsersPage;
+
+const RoleBadge = ({ role }: { role: Enum_RoleName | undefined }) => {
+  const rolesColors = {
+    [Enum_RoleName.ADMIN]: 'bg-emerald-100 text-emerald-800',
+    [Enum_RoleName.USER]: 'bg-amber-100 text-amber-800',
+  };
+  return (
+    <span
+      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full w-fit mt-1 ${
+        role ? rolesColors[role] : 'bg-gray-100 text-gray-800'
+      }`}
+    >
+      {role || 'NONE'}
+    </span>
+  );
+};
 
 const LoadingComponent = () => {
   return (

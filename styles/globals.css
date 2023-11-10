@@ -25,3 +25,8 @@ tbody > tr {
 .dialog {
   @apply fixed bottom-1/2 z-50 bg-transparent backdrop:backdrop-blur-sm;
 }
+
+.main-layout {
+  @apply grid [&>h1]:col-start-2 [&>h1]:order-first;
+  grid-template-columns: minmax(auto, 2fr) 10fr;
+}

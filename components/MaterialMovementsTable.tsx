@@ -7,6 +7,7 @@ import { RequestResultList } from './common/RequestResultList';
 import { MovementResponse } from '@/types/movement';
 import { Loading } from './common/Loading';
 import { formatDateTimeString } from '@/utils/date';
+import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
 
 interface MaterialMovementsTableProps {
   materialId: string;
@@ -48,11 +49,15 @@ const itemRenderer = (movement: MovementResponse) => (
   <tr key={movement.id}>
     <td>{movement.id}</td>
     <td>{formatDateTimeString(movement.date)}</td>
-    <td>
+    <td className='flex'>
       {movement.movementType === Enum_MovementType.IN ? (
-        <span className='text-green-500'>🡅 </span>
+        <span className='text-green-500'>
+          <IconCaretUpFilled />
+        </span>
       ) : (
-        <span className='text-red-500'>🡇 </span>
+        <span className='text-red-500'>
+          <IconCaretDownFilled />
+        </span>
       )}
       <span>{movement.quantity}</span>
     </td>
