@@ -14,6 +14,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     		FROM "User" u
     		FULL OUTER JOIN "Role" r
     		ON r.id  = u."roleId"
+        WHERE u.id IS NOT NULL
+        ORDER BY r.id
     	`;
     return res.status(200).json(users);
   }
