@@ -43,32 +43,36 @@ export const Sidebar = () => {
     email: 'sebastian.suarezr@udea.edu.co',
   };
   return (
-    <aside className='flex flex-col gap-4 px-4'>
-      <div className='p-3 flex flex-col gap-2 border-slate-300 border rounded-lg items-center'>
-        <div
-          className='text-neutral-700 bg-slate-200 rounded-full w-24 h-24 overflow-hidden 
+    <aside className='relative'>
+      <div className='flex flex-col gap-4 px-4 fixed'>
+        <div className='text-neutral-700 p-3 flex flex-col gap-2 border-slate-300 border rounded-lg items-center'>
+          <div
+            className='bg-slate-200 rounded-full w-24 h-24 overflow-hidden 
           flex justify-center self-center'
-        >
-          <IconUserFilled size={120} />
+          >
+            <IconUserFilled size={120} />
+          </div>
+          <p className='text-center font-light w-full text-slate-500'>
+            {user.name}
+          </p>
         </div>
-        <p className='text-center w-full'>{user.name}</p>
-      </div>
-      <Button className='whitespace-nowrap flex gap-3 p-3'>
-        <IconLogout2 /> Logout
-      </Button>
-      {links.map(({ label, href, icon: Icon }) => (
-        <Link
-          key={label}
-          href={href}
-          className={`border-slate-300 border hover:bg-slate-100 
+        <Button className='whitespace-nowrap flex gap-3 p-3'>
+          <IconLogout2 /> Logout
+        </Button>
+        {links.map(({ label, href, icon: Icon }) => (
+          <Link
+            key={label}
+            href={href}
+            className={`border-slate-300 border hover:bg-slate-100 
             rounded-lg p-3 flex gap-3 font-bold ${
               pathname === href && 'text-emerald-600 bg-slate-100'
             }`}
-        >
-          <Icon />
-          {label}
-        </Link>
-      ))}
+          >
+            <Icon />
+            {label}
+          </Link>
+        ))}
+      </div>
     </aside>
   );
 };

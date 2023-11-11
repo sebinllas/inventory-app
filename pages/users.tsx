@@ -52,48 +52,50 @@ const UsersPage = () => {
   return (
     <>
       <h1 className='page-title'>Users</h1>
-      <div className='container w-fit mx-auto py-4 px-6'>
-        <table>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <RequestResultList
-              data={data}
-              isError={error}
-              isLoading={isLoading}
-              loadingComponent={<LoadingComponent />}
-              noDataComponent={<NoDataComponent />}
-              errorComponent={<ErrorComponent />}
-              itemRenderer={(user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <RoleBadge role={user.role} />
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        setUserToEdit(user);
-                        editUserDialog.current?.showModal();
-                      }}
-                    >
-                      <IconEdit />
-                    </button>
-                  </td>
-                </tr>
-              )}
-            />
-          </tbody>
-        </table>
+      <div className='flex flex-col gap-6 items-center justify-center'>
+        <div className='container w-fit mx-auto py-4 px-6'>
+          <table>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <RequestResultList
+                data={data}
+                isError={error}
+                isLoading={isLoading}
+                loadingComponent={<LoadingComponent />}
+                noDataComponent={<NoDataComponent />}
+                errorComponent={<ErrorComponent />}
+                itemRenderer={(user) => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      <RoleBadge role={user.role} />
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          setUserToEdit(user);
+                          editUserDialog.current?.showModal();
+                        }}
+                      >
+                        <IconEdit />
+                      </button>
+                    </td>
+                  </tr>
+                )}
+              />
+            </tbody>
+          </table>
+        </div>
       </div>
       <dialog className='dialog' ref={editUserDialog}>
         <EditUserForm
