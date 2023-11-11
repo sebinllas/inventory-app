@@ -44,8 +44,8 @@ export const Sidebar = () => {
   };
   return (
     <aside className='relative'>
-      <div className='flex flex-col gap-4 px-4 fixed'>
-        <div className='text-neutral-700 p-3 flex flex-col gap-2 border-slate-300 border rounded-lg items-center'>
+      <div className='flex flex-col gap-2 px-4 fixed'>
+        <div className='text-neutral-700 p-3 flex flex-col gap-2 rounded-lg items-center'>
           <div
             className='bg-slate-200 rounded-full w-24 h-24 overflow-hidden 
           flex justify-center self-center'
@@ -59,19 +59,22 @@ export const Sidebar = () => {
         <Button className='whitespace-nowrap flex gap-3 p-3'>
           <IconLogout2 /> Logout
         </Button>
-        {links.map(({ label, href, icon: Icon }) => (
-          <Link
-            key={label}
-            href={href}
-            className={`border-slate-300 border hover:bg-slate-100 
-            rounded-lg p-3 flex gap-3 font-bold ${
+        <ul className='flex flex-col gap-4 py-4'>
+          {links.map(({ label, href, icon: Icon }) => (
+            <li key={label}>
+              <Link
+                href={href}
+                className={`border-slate-300 border hover:bg-slate-100 
+            rounded-full p-3 flex gap-3 font-bold ${
               pathname === href && 'text-emerald-600 bg-slate-100'
             }`}
-          >
-            <Icon />
-            {label}
-          </Link>
-        ))}
+              >
+                <Icon />
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </aside>
   );

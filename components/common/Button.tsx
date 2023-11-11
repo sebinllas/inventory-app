@@ -31,7 +31,7 @@ export const Button = ({
       {...rest}
       type={type}
 			disabled={disabled}
-      className={`${className} px-6 p-2 rounded-lg font-bold 
+      className={`${className} px-6 p-2 rounded-full font-bold
 				${stylesClassName[styleType]} ${disabled && 'opacity-60'}
 			`}
     >

@@ -24,7 +24,7 @@ export const LabeledInput = ({
         name={name}
         required={required}
         {...rest}
-        className='rounded-lg bg-neutral-100 p-2'
+        className='rounded-full bg-neutral-100 p-2'
       />
     </label>
   );

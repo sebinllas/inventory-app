@@ -16,7 +16,7 @@ export const LabeledSelect = ({
       <span>{label}</span>
       <select
         defaultValue={defaultValue}
-        className={`${className} rounded-lg bg-neutral-100 p-2`}
+        className={`${className} rounded-full bg-neutral-100 p-2`}
         {...rest}
       >
         {children}

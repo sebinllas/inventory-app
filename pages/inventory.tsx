@@ -11,6 +11,7 @@ import useSWR, { mutate } from 'swr';
 import { MaterialMovementsTable } from '@/components/MaterialMovementsTable';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import { LabeledSelect } from '@/components/common/LabeledSelect';
 
 const InventoryPage = () => {
   const userId = '1'; //hardcoded by now, will be dynamic later
@@ -56,9 +57,9 @@ const InventoryPage = () => {
       <h1 className='page-title'>Inventory management</h1>
       <div className='flex flex-col gap-6 items-center justify-center'>
         <div className='flex items-center justify-center py-2 gap-6'>
-          <select
+          <LabeledSelect
+            label=''
             defaultValue={selectedMaterialId || 'default'}
-            className='rounded-lg bg-neutral-100 p-2'
             onChange={(e) => setSelectedMaterialId(e.target.value)}
           >
             <option value='default' disabled>
@@ -72,7 +73,7 @@ const InventoryPage = () => {
                 </option>
               )}
             />
-          </select>
+          </LabeledSelect>
           <Button
             onClick={() => createMovementDialogRef.current?.showModal()}
             disabled={selectedMaterialId === null}
