@@ -8,7 +8,7 @@ import { NewMovement } from '@/types/movement';
 import { Material } from '@prisma/client';
 import React, { useRef } from 'react';
 import useSWR, { mutate } from 'swr';
-import { MaterialMovementsTable } from '@/components/MaterialMovementsTable';
+import { MaterialMovementsDetails } from '@/components/MaterialMovementsDetails';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LabeledSelect } from '@/components/common/LabeledSelect';
@@ -81,26 +81,28 @@ const InventoryPage = () => {
             Add movement
           </Button>
         </div>
-        <div className='container w-fit py-4 px-6 flex flex-col justify-center'>
-          {selectedMaterial ? (
-            <>
-              <MaterialMovementsTable materialId={selectedMaterial.id} />
-              <CreateMovementModal
-                material={selectedMaterial}
-                ref={createMovementDialogRef}
-                onClose={() => createMovementDialogRef.current?.close()}
-                onSubmit={handleCreateMovement}
-              />
-              <Toaster />
-            </>
-          ) : (
-            <div>
-              <p className='text-center text-neutral-700 p-20'>
-                Please select a material <br /> to view its movements
-              </p>
-            </div>
-          )}
-        </div>
+
+        {selectedMaterial ? (
+          <>
+            <MaterialMovementsDetails
+              materialId={selectedMaterial.id}
+              materialName={selectedMaterial.name}
+            />
+            <CreateMovementModal
+              material={selectedMaterial}
+              ref={createMovementDialogRef}
+              onClose={() => createMovementDialogRef.current?.close()}
+              onSubmit={handleCreateMovement}
+            />
+            <Toaster />
+          </>
+        ) : (
+          <div className='container w-fit py-4 px-6 flex flex-col justify-center'>
+            <p className='text-center text-neutral-700 p-20'>
+              Please select a material <br /> to view its movements
+            </p>
+          </div>
+        )}
       </div>
     </>
   );
