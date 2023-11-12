@@ -32,14 +32,14 @@ export const MaterialMovementsDetails = ({
       <div className='container w-fit py-4 px-6 flex flex-col justify-center'>
         {renderContent()}
       </div>
-      {data && data.length !== 0 && <MovementsChart data={data} />}
+      {data && data.length !== 0 && <MovementsChart data={data} />} 
     </>
   );
 };
 
 const LoadingComponent = () => {
   return (
-    <div className='min-w-[500px] p-10'>
+    <div className='p-10'>
       <Loading />
     </div>
   );
@@ -47,16 +47,12 @@ const LoadingComponent = () => {
 
 const NoDataComponent = () => {
   return (
-    <div className='min-w-[500px] p-10 text-center'>
+    <div className='p-10 text-center'>
       There are no movements for this material
     </div>
   );
 };
 
 const ErrorComponent = () => {
-  return (
-    <div className='min-w-[500px] p-10 text-center'>
-      Failed to load movements
-    </div>
-  );
+  return <div className='p-10 text-center'>Failed to load movements</div>;
 };

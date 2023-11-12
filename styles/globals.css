@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 table {
-  @apply [&_td]:py-2 [&_th]:py-2 [&_td]:px-4 [&_th]:px-4 divide-y divide-slate-300;
+  @apply [&_td]:py-2 [&_th]:py-2 [&_td]:px-4 [&_th]:px-4 divide-y divide-slate-300 w-full;
 }
 
 tbody {
@@ -11,11 +11,11 @@ tbody {
 }
 
 tbody > tr {
-  @apply hover:bg-neutral-100;
+  @apply hover:bg-neutral-100 text-center;
 }
 
 .container {
-  @apply rounded-lg border-slate-300 border min-w-fit;
+  @apply rounded-lg border-slate-300 border w-full min-w-fit;
 }
 
 .page-title {
@@ -27,6 +27,10 @@ tbody > tr {
 }
 
 .main-layout {
-  @apply grid [&>h1]:col-start-2 [&>h1]:order-first;
   grid-template-columns: minmax(auto, 2fr) 10fr;
+  @apply flex flex-col md:grid [&>h1]:col-start-2 [&>h1]:order-first [&>aside]:row-start-1 [&>aside]:row-span-full;
+}
+
+main {
+  @apply col-start-2 px-5;
 }

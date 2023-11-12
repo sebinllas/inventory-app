@@ -8,14 +8,14 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export const MovementsChart = ({ data }: { data: MovementResponse[] }) => {
   const chartData = useMemo(() => (data ? toChartData(data) : []), [data]);
   return (
-    <div className='w-full px-20'>
+    <div className='container py-4 px-6'>
       <h2 className='text-2xl font-semibold text-center py-4'>
         {chartData.length > 0 ? chartData[chartData.length - 1].y : 0} Units
         <span className='block text-sm font-light'>Current Stock</span>
       </h2>
       <Chart
         options={chartOptions}
-        series={[{ name: 'Movements', data: chartData }]}
+        series={[{ name: 'Quantity', data: chartData }]}
         type='area'
         height={350}
       />
