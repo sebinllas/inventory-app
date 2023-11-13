@@ -1,21 +1,15 @@
-import { Sidebar } from '@/components/layouts/Sidebar';
+import { MainLayout } from '@/components/layouts/MainLayout';
 import '@/styles/globals.css';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
-import { Poppins } from 'next/font/google';
 
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
-});
-
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
-    <div className={`${poppins.className} main-layout`}>
-      <Sidebar />
-      <main>
+    <SessionProvider session={session}>
+      <MainLayout excludedPages={['/']}>
         <Component {...pageProps} />
-      </main>
-    </div>
+      </MainLayout>
+    </SessionProvider>
   );
 };
 

@@ -12,6 +12,7 @@ import { useRef } from 'react';
 import { Button } from '@/components/common/Button';
 import { Loading } from '@/components/common/Loading';
 import Link from 'next/link';
+import { useUserId } from '@/hooks/useUserId';
 
 interface MaterialResponse
   extends Omit<Material, 'UserId' | 'createdAt' | 'updatedAt'> {
@@ -25,7 +26,7 @@ const MaterialPage = () => {
     `${API_ROUTES.materials}?expand=user`,
     fetcher
   );
-  const userId = '1'; //hardcoded by now, will be dynamic later
+  const userId = useUserId() ?? '';
   const createDialogRef = useRef<HTMLDialogElement>(null);
 
   const handleCreateMaterial = async (newMaterial: NewMaterial) => {

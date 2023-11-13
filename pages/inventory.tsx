@@ -12,9 +12,10 @@ import { MaterialMovementsDetails } from '@/components/MaterialMovementsDetails'
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LabeledSelect } from '@/components/common/LabeledSelect';
+import { useUserId } from '@/hooks/useUserId';
 
 const InventoryPage = () => {
-  const userId = '1'; //hardcoded by now, will be dynamic later
+  const userId = useUserId() ?? '';
   const createMovementDialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
 

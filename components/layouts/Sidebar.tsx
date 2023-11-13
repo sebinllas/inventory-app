@@ -10,7 +10,8 @@ import {
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Enum_RoleName } from '@prisma/client';
+import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
 
 const links = [
   {
@@ -35,27 +36,33 @@ const links = [
   },
 ];
 
-export const Sidebar = () => {
+interface SidebarProps {
+  user: NonNullable<Session['user']>;
+}
+
+export const Sidebar = ({ user }: SidebarProps) => {
   const pathname = usePathname();
-  const user = {
-    role: Enum_RoleName.ADMIN,
-    name: 'Sebastián Suárez Ramírez',
-    email: 'sebastian.suarezr@udea.edu.co',
-  };
   return (
     <aside className='relative'>
       <div className='flex flex-col gap-2 p-4 md:sticky top-0 left-0 max-h-screen overflow-y-auto'>
         <div className='text-neutral-700 flex flex-col gap-2 rounded-lg items-center mt-2 w-full'>
-          <div
-            className='bg-slate-200 rounded-full w-24 h-24 overflow-hidden 
-            flex justify-center self-center'
-          >
-            <IconUserFilled size={120} />
-          </div>
+          {user.name ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={user?.image || ''}
+              className='bg-slate-200 rounded-full w-24 h-24 ring-2 ring-emerald-500 ring-offset-2 ring-offset-white'
+              alt={`${user.name} avatar`}
+            />
+          ) : (
+            <DefaultUserAvatar />
+          )}
           <p className='text-center font-light w-full text-slate-500'>
             {user.name}
           </p>
-          <Button className='whitespace-nowrap md:w-full flex gap-3 p-3'>
+          <Button
+            className='whitespace-nowrap md:w-full flex gap-3 p-3'
+            onClick={() => signOut()}
+          >
             <IconLogout2 /> Logout
           </Button>
         </div>
@@ -79,3 +86,12 @@ export const Sidebar = () => {
     </aside>
   );
 };
+
+const DefaultUserAvatar = () => (
+  <div
+    className='bg-slate-200 rounded-full w-24 h-24 overflow-hidden 
+  flex justify-center self-center'
+  >
+    <IconUserFilled size={120} />
+  </div>
+);
