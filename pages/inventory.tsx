@@ -13,6 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LabeledSelect } from '@/components/common/LabeledSelect';
 import { useUserId } from '@/hooks/useUserId';
+import { ProtectedComponent } from '@/components/common/ProtectedComponent';
 
 const InventoryPage = () => {
   const userId = useUserId() ?? '';
@@ -109,4 +110,10 @@ const InventoryPage = () => {
   );
 };
 
-export default InventoryPage;
+const ProtectedInventoryPage = () => (
+  <ProtectedComponent allowedRoles={'any'}>
+    <InventoryPage />
+  </ProtectedComponent>
+);
+
+export default ProtectedInventoryPage;

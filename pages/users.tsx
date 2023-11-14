@@ -1,15 +1,18 @@
 import { EditUserForm } from '@/components/EditUserForm';
+import { Chip } from '@/components/common/Chip';
 import { Loading } from '@/components/common/Loading';
+import { ProtectedComponent } from '@/components/common/ProtectedComponent';
 import { RequestResultList } from '@/components/common/RequestResultList';
 import { API_ROUTES } from '@/constants/api';
 import { updateUser } from '@/services/user';
 import { UserResponse } from '@/types/user';
 import { fetcher } from '@/utils/fetcher';
 import { Enum_RoleName } from '@prisma/client';
-import { IconEdit } from '@tabler/icons-react';
 import { FormEvent, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR, { mutate } from 'swr';
+import { Page404 } from './404';
+import { IconEdit } from '@tabler/icons-react';
 
 const UsersPage = () => {
   const { data, error, isLoading } = useSWR<UserResponse[]>(
@@ -78,7 +81,7 @@ const UsersPage = () => {
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>
-                      <RoleBadge role={user.role} />
+                      <RoleChip role={user.role} />
                     </td>
                     <td>
                       <button
@@ -113,21 +116,23 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+const ProtectedUserPage = () => (
+  <ProtectedComponent allowedRoles={['ADMIN']} fallback={<Page404 />}>
+    <UsersPage />
+  </ProtectedComponent>
+);
 
-const RoleBadge = ({ role }: { role: Enum_RoleName | undefined }) => {
+export default ProtectedUserPage;
+
+const RoleChip = ({ role }: { role: Enum_RoleName | undefined }) => {
   const rolesColors = {
     [Enum_RoleName.ADMIN]: 'bg-emerald-100 text-emerald-800',
     [Enum_RoleName.USER]: 'bg-amber-100 text-amber-800',
   };
   return (
-    <span
-      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full w-fit mt-1 ${
-        role ? rolesColors[role] : 'bg-gray-100 text-gray-800'
-      }`}
-    >
-      {role || 'NONE'}
-    </span>
+    <Chip className={role ? rolesColors[role] : 'bg-gray-200'}>
+      {role ?? 'NONE'}
+    </Chip>
   );
 };
 

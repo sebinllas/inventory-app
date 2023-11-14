@@ -8,10 +8,10 @@ import {
   IconUserFilled,
   IconUsers,
 } from '@tabler/icons-react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
+import { NavLink } from '@/components/common/NavLink';
 
 const links = [
   {
@@ -23,6 +23,7 @@ const links = [
     label: 'Users',
     href: '/users',
     icon: IconUsers,
+    protect: true,
   },
   {
     label: 'Materials',
@@ -43,7 +44,7 @@ interface SidebarProps {
 export const Sidebar = ({ user }: SidebarProps) => {
   const pathname = usePathname();
   return (
-    <aside className='relative'>
+    <aside className='relative min-h-screen'>
       <div className='flex flex-col gap-2 p-4 md:sticky top-0 left-0 max-h-screen overflow-y-auto'>
         <div className='text-neutral-700 flex flex-col gap-2 rounded-lg items-center mt-2 w-full'>
           {user.name ? (
@@ -67,19 +68,12 @@ export const Sidebar = ({ user }: SidebarProps) => {
           </Button>
         </div>
         <ul className='flex md:flex-col justify-center gap-4 py-4'>
-          {links.map(({ label, href, icon: Icon }) => (
-            <li key={label}>
-              <Link
-                href={href}
-                className={`border-slate-300 border hover:bg-slate-100 
-                rounded-full p-3 flex gap-3 font-bold ${
-                  pathname === href && 'text-emerald-600 bg-slate-100'
-                }`}
-              >
-                <Icon />
-                {label}
-              </Link>
-            </li>
+          {links.map((link) => (
+            <NavLink
+              key={link.label}
+              isSelected={pathname == link.href}
+              {...link}
+            />
           ))}
         </ul>
       </div>

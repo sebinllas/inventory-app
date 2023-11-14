@@ -13,6 +13,7 @@ import { Button } from '@/components/common/Button';
 import { Loading } from '@/components/common/Loading';
 import Link from 'next/link';
 import { useUserId } from '@/hooks/useUserId';
+import { ProtectedComponent } from '@/components/common/ProtectedComponent';
 
 interface MaterialResponse
   extends Omit<Material, 'UserId' | 'createdAt' | 'updatedAt'> {
@@ -47,11 +48,13 @@ const MaterialPage = () => {
     <>
       <h1 className='page-title'>Materials</h1>
       <div className='flex flex-col gap-6 items-center justify-center'>
-        <div className='flex items-center justify-center py-2 gap-6'>
-          <Button onClick={() => createDialogRef.current?.showModal()}>
-            Add a new material
-          </Button>
-        </div>
+        <ProtectedComponent>
+          <div className='flex items-center justify-center py-2 gap-6'>
+            <Button onClick={() => createDialogRef.current?.showModal()}>
+              Add a new material
+            </Button>
+          </div>
+        </ProtectedComponent>
         <div className='container w-fit mx-auto py-4 px-6'>
           <table>
             <thead>
@@ -68,7 +71,7 @@ const MaterialPage = () => {
                 data={data}
                 isError={error}
                 isLoading={isLoading}
-                itemRenderer={itemRenderer}
+                itemRenderer={materialRenderer}
                 loadingComponent={<LoadingComponent />}
                 errorComponent={<ErrorComponent />}
                 noDataComponent={<NoDataComponent />}
@@ -87,9 +90,15 @@ const MaterialPage = () => {
   );
 };
 
-export default MaterialPage;
+const ProtectedMaterialPage = () => (
+  <ProtectedComponent allowedRoles={'any'}>
+    <MaterialPage />
+  </ProtectedComponent>
+);
 
-const itemRenderer = (material: MaterialResponse) => (
+export default ProtectedMaterialPage;
+
+const materialRenderer = (material: MaterialResponse) => (
   <tr key={material.id}>
     <td>
       <Link href={`/inventory?material=${material.id}`}>{material.id}</Link>

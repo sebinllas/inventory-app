@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scrollbar-gutter: stable;
+}
+
 table {
   @apply [&_td]:py-2 [&_th]:py-2 [&_td]:px-4 [&_th]:px-4 divide-y divide-slate-300 w-full;
 }
