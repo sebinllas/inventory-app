@@ -2,6 +2,7 @@ import { checkReqQueryValue } from '@/utils/api';
 import prisma from '@/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Enum_MovementType } from '@prisma/client';
+import { checkAuth } from '@/utils/auth';
 
 enum AllowedMethods {
   GET = 'GET',
@@ -9,6 +10,8 @@ enum AllowedMethods {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  checkAuth(req, res, ['ADMIN', 'USER']);
+
   if (req.method === AllowedMethods.GET) {
     const query = req.query;
     const expandUser = checkReqQueryValue({

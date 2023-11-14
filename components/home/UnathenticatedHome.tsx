@@ -14,6 +14,7 @@ export const UnauthenticatedHome = ({ features }: HomePageProps) => {
     <main>
       <section className='flex min-h-screen md:flex-row flex-col  justify-center px-40 gap-10 items-center relative'>
         <Image
+          priority
           src='/assets/images/landing-image.webp'
           width={500}
           height={500}

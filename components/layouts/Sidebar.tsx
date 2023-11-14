@@ -44,7 +44,7 @@ interface SidebarProps {
 export const Sidebar = ({ user }: SidebarProps) => {
   const pathname = usePathname();
   return (
-    <aside className='relative min-h-screen'>
+    <aside className='relative md:min-h-screen'>
       <div className='flex flex-col gap-2 p-4 md:sticky top-0 left-0 max-h-screen overflow-y-auto'>
         <div className='text-neutral-700 flex flex-col gap-2 rounded-lg items-center mt-2 w-full'>
           {user.name ? (

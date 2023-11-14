@@ -28,7 +28,7 @@ const sessionCallback: SessionCallbackType = async ({ session, user }) => {
   };
 };
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   callbacks: {
     session: sessionCallback,
   },

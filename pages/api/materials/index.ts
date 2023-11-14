@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { checkReqQueryValue } from '@/utils/api';
 import { Enum_MovementType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { checkAuth } from '@/utils/auth';
 
 enum AllowedMethods {
   GET = 'GET',
@@ -10,6 +11,8 @@ enum AllowedMethods {
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === AllowedMethods.GET) {
+    checkAuth(req, res, ['ADMIN', 'USER']);
+    
     const query = req.query;
     const expandUser = checkReqQueryValue({
       param: 'expand',
@@ -25,6 +28,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === AllowedMethods.POST) {
+    checkAuth(req, res, ['ADMIN']);
+
     const { userId, ...material } = req.body;
     return prisma
       .$transaction(async (tx) => {

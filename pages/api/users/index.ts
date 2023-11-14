@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 import { UserResponse } from '@/types/user';
+import { checkAuth } from '@/utils/auth';
 
 enum AllowedMethods {
   GET = 'GET',
@@ -8,6 +9,8 @@ enum AllowedMethods {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  checkAuth(req, res, ['ADMIN']);
+
   if (req.method === AllowedMethods.GET) {
     const users = await prisma.$queryRaw<UserResponse[]>`
     		SELECT u.* , r."name" AS "role"

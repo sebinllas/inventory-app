@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 import { UserUpdate } from '@/types/user';
+import { checkAuth } from '@/utils/auth';
 
 enum AllowedMethods {
   PUT = 'PUT',
@@ -8,6 +9,7 @@ enum AllowedMethods {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  checkAuth(req, res, ['ADMIN']);
   const userId = req.query.userId as string;
 
   if (req.method === AllowedMethods.PUT) {
