@@ -1,5 +1,4 @@
-import { EditUserForm } from '@/components/EditUserForm';
-import { Chip } from '@/components/common/Chip';
+import { EditUserForm } from '@/components/users/EditUserForm';
 import { Loading } from '@/components/common/Loading';
 import { ProtectedComponent } from '@/components/common/ProtectedComponent';
 import { RequestResultList } from '@/components/common/RequestResultList';
@@ -13,12 +12,14 @@ import toast, { Toaster } from 'react-hot-toast';
 import useSWR, { mutate } from 'swr';
 import { Page404 } from './404';
 import { IconEdit } from '@tabler/icons-react';
+import { UserCell } from '@/components/users/userCell';
 
 const UsersPage = () => {
   const { data, error, isLoading } = useSWR<UserResponse[]>(
     API_ROUTES.users,
     fetcher
   );
+  const [loading, setLoading] = useState(false);
   const editUserDialog = useRef<HTMLDialogElement>(null);
   const [userToEdit, setUserToEdit] = useState<UserResponse | undefined>(
     undefined
@@ -35,6 +36,7 @@ const UsersPage = () => {
     }
   };
   const handleSubmit = async (user: { email: string; role: Enum_RoleName }) => {
+    setLoading(true);
     if (!userToEdit) return;
     await toast.promise(
       updateUser(userToEdit.id, {
@@ -49,6 +51,7 @@ const UsersPage = () => {
         error: 'Failed to update user',
       }
     );
+    setLoading(false);
     mutate(API_ROUTES.users);
   };
 
@@ -76,14 +79,9 @@ const UsersPage = () => {
                 noDataComponent={<NoDataComponent />}
                 errorComponent={<ErrorComponent />}
                 itemRenderer={(user) => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      <RoleChip role={user.role} />
-                    </td>
-                    <td>
+                  <UserCell
+                    user={user}
+                    actionElement={
                       <button
                         onClick={() => {
                           setUserToEdit(user);
@@ -92,8 +90,8 @@ const UsersPage = () => {
                       >
                         <IconEdit />
                       </button>
-                    </td>
-                  </tr>
+                    }
+                  />
                 )}
               />
             </tbody>
@@ -109,9 +107,10 @@ const UsersPage = () => {
           onUserChange={handleUserChange}
           onSubmit={handleSubmit}
           onCancel={() => editUserDialog.current?.close()}
+          loading={loading}
         />
+        <Toaster position='top-left' />
       </dialog>
-      <Toaster />
     </>
   );
 };
@@ -123,18 +122,6 @@ const ProtectedUserPage = () => (
 );
 
 export default ProtectedUserPage;
-
-const RoleChip = ({ role }: { role: Enum_RoleName | undefined }) => {
-  const rolesColors = {
-    [Enum_RoleName.ADMIN]: 'bg-emerald-100 text-emerald-800',
-    [Enum_RoleName.USER]: 'bg-amber-100 text-amber-800',
-  };
-  return (
-    <Chip className={role ? rolesColors[role] : 'bg-gray-200'}>
-      {role ?? 'NONE'}
-    </Chip>
-  );
-};
 
 const LoadingComponent = () => {
   return (

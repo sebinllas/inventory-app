@@ -1,10 +1,10 @@
-import { CreateMaterialModal } from '@/components/CreateMaterialModal';
+import { CreateMaterialModal } from '@/components/materials/CreateMaterialModal';
 import { RequestResultList } from '@/components/common/RequestResultList';
 import { API_ROUTES } from '@/constants/api';
 import { fetcher } from '@/utils/fetcher';
 import { NewMaterial } from '@/types/material';
 import { Material, User } from '@prisma/client';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import useSWR, { mutate } from 'swr';
 import { createMaterial } from '@/services/material';
 import { formatDateString } from '@/utils/date';
@@ -28,19 +28,20 @@ const MaterialPage = () => {
     fetcher
   );
   const userId = useUserId() ?? '';
-  const createDialogRef = useRef<HTMLDialogElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
+  const closeModal = () => modalRef.current?.close();
 
   const handleCreateMaterial = async (newMaterial: NewMaterial) => {
     try {
-      await toast
-        .promise(createMaterial(newMaterial, userId), {
-          loading: 'Adding material...',
-          success: 'Material added',
-          error: (error) => {
-            return error.toString();
-          },
-        })
-        .then(() => mutate(`${API_ROUTES.materials}?expand=user`));
+      await toast.promise(createMaterial(newMaterial, userId), {
+        loading: 'Adding material...',
+        success: 'Material added',
+        error: (error) => {
+          return error.toString();
+        },
+      });
+      mutate(`${API_ROUTES.materials}?expand=user`);
+      closeModal();
     } catch (e) {} // eslint-disable-line no-empty
   };
 
@@ -50,7 +51,7 @@ const MaterialPage = () => {
       <div className='flex flex-col gap-6 items-center justify-center'>
         <ProtectedComponent>
           <div className='flex items-center justify-center py-2 gap-6'>
-            <Button onClick={() => createDialogRef.current?.showModal()}>
+            <Button onClick={() => modalRef.current?.showModal()}>
               Add a new material
             </Button>
           </div>
@@ -81,11 +82,10 @@ const MaterialPage = () => {
         </div>
       </div>
       <CreateMaterialModal
-        ref={createDialogRef}
+        ref={modalRef}
         onSubmit={handleCreateMaterial}
-        onClose={() => createDialogRef.current?.close()}
+        onClose={closeModal}
       />
-      <Toaster />
     </>
   );
 };

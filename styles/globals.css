@@ -4,6 +4,7 @@
 
 html {
   scrollbar-gutter: stable;
+  @apply min-w-fit
 }
 
 table {
@@ -27,7 +28,7 @@ tbody > tr {
 }
 
 .dialog {
-  @apply fixed bottom-1/2 z-50 bg-transparent backdrop:backdrop-blur-sm;
+  @apply fixed bottom-1/2 z-30 bg-transparent backdrop:backdrop-blur-sm backdrop:z-30;
 }
 
 .main-layout {

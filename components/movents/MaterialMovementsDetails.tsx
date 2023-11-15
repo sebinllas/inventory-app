@@ -2,7 +2,7 @@ import { API_ROUTES } from '@/constants/api';
 import { fetcher } from '@/utils/fetcher';
 import useSWR from 'swr';
 import { MovementResponse } from '@/types/movement';
-import { Loading } from './common/Loading';
+import { Loading } from '@/components/common/Loading';
 import { MovementsChart } from './MovementsChart';
 import { MovementsTable } from './MovementsTable';
 
@@ -32,7 +32,7 @@ export const MaterialMovementsDetails = ({
       <div className='container w-fit py-4 px-6 flex flex-col justify-center'>
         {renderContent()}
       </div>
-      {data && data.length !== 0 && <MovementsChart data={data} />} 
+      {data && data.length !== 0 && <MovementsChart data={data} />}
     </>
   );
 };

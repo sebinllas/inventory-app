@@ -1,12 +1,13 @@
 import { Enum_RoleName } from '@prisma/client';
 import { FormEvent } from 'react';
-import { LabeledSelect } from './common/LabeledSelect';
-import { Button } from './common/Button';
+import { LabeledSelect } from '@/components/common/LabeledSelect';
+import { Button } from '@/components/common/Button';
 
 interface EditUserFormProps {
   userToEdit: { email: string; role?: Enum_RoleName };
   onSubmit: (user: { email: string; role: Enum_RoleName }) => void;
   onCancel: () => void;
+  loading?: boolean;
   onUserChange: (
     e: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>
   ) => void;
@@ -17,8 +18,10 @@ export const EditUserForm = ({
   onSubmit,
   onCancel,
   onUserChange,
+  loading = false,
 }: EditUserFormProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const roleSelect = e.currentTarget.elements.namedItem('role');
     if (roleSelect instanceof HTMLSelectElement && userToEdit !== undefined) {
       const editedUser = {
@@ -30,7 +33,6 @@ export const EditUserForm = ({
   };
   return (
     <form
-      method='dialog'
       className='container flex flex-col gap-4 h-fit p-4 mx-auto bg-white'
       onSubmit={handleSubmit}
     >
@@ -54,7 +56,9 @@ export const EditUserForm = ({
         ))}
       </LabeledSelect>
       <div className='flex gap-2 justify-center'>
-        <Button type='submit'>Save</Button>
+        <Button type='submit' loading={loading}>
+          Save
+        </Button>
         <Button type='button' onClick={() => onCancel()} styleType='secondary'>
           Cancel
         </Button>

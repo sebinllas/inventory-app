@@ -44,8 +44,8 @@ interface SidebarProps {
 export const Sidebar = ({ user }: SidebarProps) => {
   const pathname = usePathname();
   return (
-    <aside className='relative md:min-h-screen'>
-      <div className='flex flex-col gap-2 p-4 md:sticky top-0 left-0 max-h-screen overflow-y-auto'>
+    <aside className='relative md:min-h-screen  bg-gray-100'>
+      <div className='flex flex-col-reverse md:flex-col md:bottom-1/2 md:translate-y-1/3 gap-2 p-4 md:sticky top-0 left-0 max-h-screen overflow-y-auto'>
         <div className='text-neutral-700 flex flex-col gap-2 rounded-lg items-center mt-2 w-full'>
           {user.name ? (
             // eslint-disable-next-line @next/next/no-img-element

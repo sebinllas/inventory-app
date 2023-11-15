@@ -8,8 +8,8 @@ interface HomePageProps {
 
 export const AuthenticatedHome = ({ features }: HomePageProps) => {
   return (
-    <div className='md:min-h-screen flex flex-col justify-center px-40 gap-10 items-center'>
-      <h1 className='text-3xl lg:text-6xl font-bold text-center mt-4'>
+    <div className='md:min-h-screen flex flex-col justify-center md:px-40 gap-10 items-center'>
+      <h1 className='text-3xl lg:text-6xl font-bold text-center mt-10'>
         Welcome to your{' '}
         <span className='text-emerald-600'>inventory management</span> app!
       </h1>

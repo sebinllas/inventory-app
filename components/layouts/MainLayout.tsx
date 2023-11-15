@@ -21,7 +21,7 @@ export const MainLayout = ({
   if (status == AuthStatus.LOADING)
     return (
       <main className='h-screen flex justify-center items-center'>
-        <Loading />;
+        <Loading />
       </main>
     );
   if (status == AuthStatus.UNAUTHENTICATED && pathname !== '/') {

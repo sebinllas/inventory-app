@@ -1,4 +1,4 @@
-import { CreateMovementModal } from '@/components/CreateMovementModal';
+import { CreateMovementModal } from '@/components/movents/CreateMovementModal';
 import { Button } from '@/components/common/Button';
 import { RequestResultList } from '@/components/common/RequestResultList';
 import { API_ROUTES } from '@/constants/api';
@@ -8,17 +8,19 @@ import { NewMovement } from '@/types/movement';
 import { Material } from '@prisma/client';
 import React, { useRef } from 'react';
 import useSWR, { mutate } from 'swr';
-import { MaterialMovementsDetails } from '@/components/MaterialMovementsDetails';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LabeledSelect } from '@/components/common/LabeledSelect';
 import { useUserId } from '@/hooks/useUserId';
 import { ProtectedComponent } from '@/components/common/ProtectedComponent';
+import { MaterialMovementsDetails } from '@/components/movents/MaterialMovementsDetails';
 
 const InventoryPage = () => {
   const userId = useUserId() ?? '';
-  const createMovementDialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
+  const modalRef = useRef<HTMLDialogElement>(null);
+
+  const closeModal = () => modalRef.current?.close();
 
   const { data: materials } = useSWR<Material[]>(
     `${API_ROUTES.materials}`,
@@ -38,19 +40,18 @@ const InventoryPage = () => {
 
   const handleCreateMovement = async (newMovement: NewMovement) => {
     try {
-      await toast
-        .promise(createMovement(newMovement, userId), {
-          loading: 'Adding movement...',
-          success: 'Movement added',
-          error: (error) => {
-            return error.toString();
-          },
-        })
-        .then(() =>
-          mutate(
-            `${API_ROUTES.movements}?material=${selectedMaterialId}&expand=user`
-          )
-        );
+      await toast.promise(createMovement(newMovement, userId), {
+        loading: 'Adding movement...',
+        success: 'Movement added',
+        error: (error) => {
+          return error.toString();
+        },
+      });
+
+      mutate(
+        `${API_ROUTES.movements}?material=${selectedMaterialId}&expand=user`
+      );
+      closeModal();
     } catch (e) {} // eslint-disable-line no-empty
   };
 
@@ -77,7 +78,7 @@ const InventoryPage = () => {
             />
           </LabeledSelect>
           <Button
-            onClick={() => createMovementDialogRef.current?.showModal()}
+            onClick={() => modalRef.current?.showModal()}
             disabled={selectedMaterialId === null}
           >
             Add movement
@@ -92,11 +93,10 @@ const InventoryPage = () => {
             />
             <CreateMovementModal
               material={selectedMaterial}
-              ref={createMovementDialogRef}
-              onClose={() => createMovementDialogRef.current?.close()}
+              ref={modalRef}
+              onClose={closeModal}
               onSubmit={handleCreateMovement}
             />
-            <Toaster />
           </>
         ) : (
           <div className='container w-fit py-4 px-6 flex flex-col justify-center'>

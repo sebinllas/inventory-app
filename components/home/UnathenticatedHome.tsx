@@ -19,7 +19,7 @@ export const UnauthenticatedHome = ({ features }: HomePageProps) => {
           width={500}
           height={500}
           alt='illustrative inventory management'
-          className='rounded-full shrink '
+          className='rounded-full shrink min-w-[250px]'
         />
         <div>
           <h1 className='text-4xl lg:text-6xl font-bold '>

@@ -1,10 +1,11 @@
 /* eslint-disable prefer-arrow-callback */
-import React, { FormEvent, ForwardedRef, forwardRef } from 'react';
-import { Button } from './common/Button';
-import { LabeledInput } from './common/LabeledInput';
+import React, { FormEvent, ForwardedRef, forwardRef, useState } from 'react';
+import { Button } from '@/components/common/Button';
+import { LabeledInput } from '@/components/common/LabeledInput';
 import { Enum_MovementType, Material } from '@prisma/client';
 import { NewMovement } from '@/types/movement';
-import { LabeledSelect } from './common/LabeledSelect';
+import { LabeledSelect } from '@/components/common/LabeledSelect';
+import { Toaster } from 'react-hot-toast';
 
 interface NewMovementFormProps {
   onSubmit: (material: NewMovement) => void;
@@ -12,11 +13,15 @@ interface NewMovementFormProps {
   material: Material;
 }
 
-const renderComponent = (
+const RenderComponent = (
   { onSubmit, onClose, material }: NewMovementFormProps,
   ref: ForwardedRef<HTMLDialogElement>
 ) => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
     const typeSelect = e.currentTarget.elements.namedItem('type');
     const quantityInput = e.currentTarget.elements.namedItem('quantity');
     if (
@@ -24,11 +29,12 @@ const renderComponent = (
       !(quantityInput instanceof HTMLInputElement)
     )
       return;
-    onSubmit({
+    await onSubmit({
       quantity: parseInt(quantityInput.value),
       materialId: material.id,
       movementType: typeSelect.value,
     });
+    setLoading(false);
     typeSelect.value = '';
     quantityInput.value = '';
   };
@@ -36,7 +42,6 @@ const renderComponent = (
   return (
     <dialog className='dialog' ref={ref}>
       <form
-        method='dialog'
         onSubmit={handleSubmit}
         className='container h-fit mx-auto bg-white p-4 gap-4 flex flex-col'
       >
@@ -68,15 +73,18 @@ const renderComponent = (
             min={1}
           />
           <div className='flex gap-2 justify-center'>
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' loading={loading}>
+              Submit
+            </Button>
             <Button styleType='secondary' onClick={onClose}>
               Cancel
             </Button>
           </div>
         </fieldset>
       </form>
+      <Toaster position='top-left' />
     </dialog>
   );
 };
 
-export const CreateMovementModal = forwardRef(renderComponent);
+export const CreateMovementModal = forwardRef(RenderComponent);

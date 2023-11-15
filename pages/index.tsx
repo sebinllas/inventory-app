@@ -47,7 +47,7 @@ const Home = () => {
   if (status === AuthStatus.AUTHENTICATED) {
     return (
       <MainLayout>
-        <AuthenticatedHome features={features} />;
+        <AuthenticatedHome features={features} />
       </MainLayout>
     );
   }
