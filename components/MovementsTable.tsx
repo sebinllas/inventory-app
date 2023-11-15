@@ -36,7 +36,7 @@ const rowRenderer = (movement: MovementResponse) => (
   <tr key={movement.id}>
     <td>{movement.id}</td>
     <td>{formatDateTimeString(movement.date)}</td>
-    <td className='flex'>
+    <td className='flex justify-center'>
       {movement.movementType === Enum_MovementType.IN ? (
         <span className='text-green-500'>
           <IconCaretUpFilled />
@@ -46,7 +46,7 @@ const rowRenderer = (movement: MovementResponse) => (
           <IconCaretDownFilled />
         </span>
       )}
-      <span>{movement.quantity}</span>
+      <span className='w-8'>{movement.quantity}</span>
     </td>
     <td>{movement.createdBy.name}</td>
   </tr>
