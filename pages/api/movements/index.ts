@@ -10,7 +10,7 @@ enum AllowedMethods {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  checkAuth(req, res, ['ADMIN', 'USER']);
+  await checkAuth(req, res, ['ADMIN', 'USER']);
 
   if (req.method === AllowedMethods.GET) {
     const query = req.query;

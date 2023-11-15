@@ -11,7 +11,7 @@ enum AllowedMethods {
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === AllowedMethods.GET) {
-    checkAuth(req, res, ['ADMIN', 'USER']);
+    await checkAuth(req, res, ['ADMIN', 'USER']);
     
     const query = req.query;
     const expandUser = checkReqQueryValue({
@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === AllowedMethods.POST) {
-    checkAuth(req, res, ['ADMIN']);
+    await checkAuth(req, res, ['ADMIN']);
 
     const { userId, ...material } = req.body;
     return prisma

@@ -9,7 +9,7 @@ enum AllowedMethods {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  checkAuth(req, res, ['ADMIN']);
+  await checkAuth(req, res, ['ADMIN']);
 
   if (req.method === AllowedMethods.GET) {
     const users = await prisma.$queryRaw<UserResponse[]>`
