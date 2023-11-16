@@ -14,6 +14,7 @@ import { Loading } from '@/components/common/Loading';
 import Link from 'next/link';
 import { useUserId } from '@/hooks/useUserId';
 import { ProtectedComponent } from '@/components/common/ProtectedComponent';
+import { Page401 } from './401';
 
 interface MaterialResponse
   extends Omit<Material, 'UserId' | 'createdAt' | 'updatedAt'> {
@@ -91,7 +92,7 @@ const MaterialPage = () => {
 };
 
 const ProtectedMaterialPage = () => (
-  <ProtectedComponent allowedRoles={'any'}>
+  <ProtectedComponent allowedRoles={'any'}  fallback={<Page401 />} >
     <MaterialPage />
   </ProtectedComponent>
 );

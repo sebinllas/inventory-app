@@ -24,9 +24,9 @@ export const MainLayout = ({
         <Loading />
       </main>
     );
-  if (status == AuthStatus.UNAUTHENTICATED && pathname !== '/') {
-    router.replace('/');
-  }
+  // if (status == AuthStatus.UNAUTHENTICATED && pathname !== '/') {
+  //   router.replace('/');
+  // }
 
   return (
     <div className='main-layout'>

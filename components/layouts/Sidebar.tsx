@@ -20,6 +20,11 @@ const links = [
     icon: IconHome,
   },
   {
+    label: 'Inventory',
+    href: '/inventory',
+    icon: IconSwitchVertical,
+  },
+  {
     label: 'Users',
     href: '/users',
     icon: IconUsers,
@@ -29,11 +34,6 @@ const links = [
     label: 'Materials',
     href: '/materials',
     icon: IconPackages,
-  },
-  {
-    label: 'Inventory',
-    href: '/inventory',
-    icon: IconSwitchVertical,
   },
 ];
 

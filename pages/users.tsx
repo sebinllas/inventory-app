@@ -10,9 +10,9 @@ import { Enum_RoleName } from '@prisma/client';
 import { FormEvent, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import useSWR, { mutate } from 'swr';
-import { Page404 } from './404';
 import { IconEdit } from '@tabler/icons-react';
 import { UserCell } from '@/components/users/userCell';
+import { Page401 } from './401';
 
 const UsersPage = () => {
   const { data, error, isLoading } = useSWR<UserResponse[]>(
@@ -116,7 +116,7 @@ const UsersPage = () => {
 };
 
 const ProtectedUserPage = () => (
-  <ProtectedComponent allowedRoles={['ADMIN']} fallback={<Page404 />}>
+  <ProtectedComponent allowedRoles={['ADMIN']} fallback={<Page401 />}>
     <UsersPage />
   </ProtectedComponent>
 );

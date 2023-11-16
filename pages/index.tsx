@@ -13,12 +13,12 @@ import { MainLayout } from '@/components/layouts/MainLayout';
 
 const features = [
   {
-    title: 'Materials',
-    href: '/materials',
-    icon: IconPackages,
-    image: '/assets/images/materials-image.webp',
+    title: 'Inventory',
+    href: '/inventory',
+    icon: IconSwitchVertical,
+    image: '/assets/images/movements-image.webp',
     description:
-      'Explore the materials page to view all its related information and manage them.',
+      'Visit the inventory page to monitor and control the materials movements.',
   },
   {
     title: 'Users',
@@ -30,12 +30,12 @@ const features = [
       'Access the users page to manage and view information about users using the inventory system.',
   },
   {
-    title: 'Inventory',
-    href: '/inventory',
-    icon: IconSwitchVertical,
-    image: '/assets/images/movements-image.webp',
+    title: 'Materials',
+    href: '/materials',
+    icon: IconPackages,
+    image: '/assets/images/materials-image.webp',
     description:
-      'Visit the inventory page to monitor and control the materials movements.',
+      'Explore the materials page to view all its related information and manage them.',
   },
 ];
 
