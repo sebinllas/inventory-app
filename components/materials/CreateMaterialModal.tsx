@@ -1,19 +1,24 @@
 /* eslint-disable prefer-arrow-callback */
-import { NewMaterial } from '@/types/NewMaterial';
-import React, { FormEvent, ForwardedRef, forwardRef } from 'react';
-import { Button } from './common/Button';
-import { LabeledInput } from './common/LabeledInput';
+import { NewMaterial } from '@/types/material';
+import React, { FormEvent, ForwardedRef, forwardRef, useState } from 'react';
+import { Button } from '@/components/common/Button';
+import { LabeledInput } from '@/components/common/LabeledInput';
+import { Toaster } from 'react-hot-toast';
 
 interface NewMaterialFormProps {
-  onSubmit: (material: NewMaterial) => void;
+  onSubmit: (material: NewMaterial) => Promise<void>;
   onClose: () => void;
 }
 
-const renderComponent = (
+const RenderComponent = (
   { onSubmit, onClose }: NewMaterialFormProps,
   ref: ForwardedRef<HTMLDialogElement>
 ) => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
     const nameInput = e.currentTarget.elements.namedItem('name');
     const quantityInput = e.currentTarget.elements.namedItem('quantity');
     if (
@@ -21,21 +26,18 @@ const renderComponent = (
       !(quantityInput instanceof HTMLInputElement)
     )
       return;
-    onSubmit({
+    await onSubmit({
       name: nameInput.value,
       quantity: parseInt(quantityInput.value),
     });
+    setLoading(false);
     nameInput.value = '';
     quantityInput.value = '';
   };
 
   return (
-    <dialog
-      className='fixed bottom-1/2 z-50 bg-transparent backdrop:backdrop-blur-sm'
-      ref={ref}
-    >
+    <dialog className='dialog' ref={ref}>
       <form
-        method='dialog'
         onSubmit={handleSubmit}
         className='container flex flex-col items-center gap-4 h-fit p-4 mx-auto bg-white'
       >
@@ -54,14 +56,17 @@ const renderComponent = (
           required
         />
         <div className='flex gap-2'>
-          <Button type='submit'>Submit</Button>
+          <Button type='submit' loading={loading}>
+            Submit
+          </Button>
           <Button styleType='secondary' onClick={onClose}>
             Cancel
           </Button>
         </div>
       </form>
+      <Toaster position='top-left' />
     </dialog>
   );
 };
 
-export const CreateMaterialModal = forwardRef(renderComponent);
+export const CreateMaterialModal = forwardRef(RenderComponent);

@@ -1,51 +1,79 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { useState } from 'react';
+import { checkReqQueryValue } from '@/utils/api';
+import { Enum_MovementType } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { checkAuth } from '@/utils/auth';
 
 enum AllowedMethods {
   GET = 'GET',
   POST = 'POST',
 }
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-
   if (req.method === AllowedMethods.GET) {
-    const query = req.query
-    if(query && query.expand){
-      const materials = await prisma.material.findMany({
-        include:{
-          createdBy: true
-        }
-      })
-      return res.status(200).json(materials)
-    }
-    const materials = await prisma.material.findMany();
+    await checkAuth(req, res, ['ADMIN', 'USER']);
+    
+    const query = req.query;
+    const expandUser = checkReqQueryValue({
+      param: 'expand',
+      value: 'user',
+      query,
+    });
+    const materials = await prisma.material.findMany({
+      include: {
+        createdBy: expandUser,
+      },
+    });
     return res.status(200).json(materials);
   }
 
   if (req.method === AllowedMethods.POST) {
+    await checkAuth(req, res, ['ADMIN']);
+
     const { userId, ...material } = req.body;
-    const createdMaterial = await prisma.material
-      .create({
-        data: {
-          ...material,
-          createdBy: {
-            connect: {
-              id: userId,
+    return prisma
+      .$transaction(async (tx) => {
+        const createdMaterial = await tx.material.create({
+          data: {
+            ...material,
+            createdBy: {
+              connect: {
+                id: userId,
+              },
             },
           },
-        },
+        });
+        await tx.inventoryMovement.create({
+          data: {
+            material: {
+              connect: {
+                id: createdMaterial?.id,
+              },
+            },
+            quantity: material.quantity,
+            movementType: Enum_MovementType.IN,
+            createdBy: {
+              connect: {
+                id: userId,
+              },
+            },
+          },
+        });
+        return res.status(201).json(createdMaterial);
       })
       .catch((error) => {
-        if (error.code === 'P2002') {
+        if (
+          error instanceof PrismaClientKnownRequestError &&
+          error.code === 'P2002'
+        ) {
           return res.status(409).json({
-            details: `Material with name ${material.name} already exists`,
+            message: `Material with name ${material.name} already exists`,
           });
         }
         return res.status(500).json({
-          details: 'Something unexpected happened, please try again',
+          message: 'Something unexpected happened, please try again',
         });
       });
-    return res.status(201).json(createdMaterial);
   }
 
   return res.status(405).json({

@@ -1,3 +1,4 @@
+import { IconLoader2 } from '@tabler/icons-react';
 import React from 'react';
 
 enum ButtonType {
@@ -11,6 +12,7 @@ interface ButtonProps
     HTMLButtonElement
   > {
   styleType?: `${ButtonType}`;
+  loading?: boolean;
 }
 
 export const Button = ({
@@ -19,6 +21,7 @@ export const Button = ({
   type = 'button',
   styleType = ButtonType.primary,
   disabled = false,
+  loading = false,
   ...rest
 }: ButtonProps) => {
   const stylesClassName = {
@@ -30,12 +33,18 @@ export const Button = ({
     <button
       {...rest}
       type={type}
-			disabled={disabled}
-      className={`${className} px-6 p-2 rounded-lg font-bold 
-				${stylesClassName[styleType]} ${disabled && 'opacity-60'}
+      disabled={disabled || loading}
+      className={`${className} px-6 p-2 rounded-full font-bold disabled:opacity-60
+				${stylesClassName[styleType]}
 			`}
     >
-      {children}
+      {loading ? (
+        <div className='flex justify-center min-w-[60px]'>
+          <IconLoader2 className='animate-spin' />
+        </div>
+      ) : (
+        children
+      )}
     </button>
   );
 };

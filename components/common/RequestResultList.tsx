@@ -1,28 +1,47 @@
-import { Loading } from "./Loading";
+import { ElementType, Fragment } from 'react';
+import { Loading } from './Loading';
 
 interface RequestResultListProps<T> {
   data: T[] | undefined;
-  isError: boolean;
-  isLoading: boolean;
+  isError?: boolean;
+  isLoading?: boolean;
+  wrapperComponent?: ElementType;
   errorComponent?: JSX.Element;
   loadingComponent?: JSX.Element;
   noDataComponent?: JSX.Element;
-  itemRenderer: (item: T) => JSX.Element;
+  itemRenderer: (item: T, index: number) => JSX.Element;
 }
 
 export const RequestResultList = <T,>({
   data,
-  isError,
-  isLoading,
-  errorComponent = <div>Failed to load data</div>,
-  loadingComponent = <Loading />,
-  noDataComponent = <div>No data found</div>,
+  isError = false,
+  isLoading = false,
+  errorComponent = (
+    <MessageContainer>
+      <p>Failed to load data</p>
+    </MessageContainer>
+  ),
+  loadingComponent = (
+    <MessageContainer>
+      <Loading />
+    </MessageContainer>
+  ),
+  noDataComponent = (
+    <MessageContainer>
+      <p>No data found</p>
+    </MessageContainer>
+  ),
   itemRenderer,
+  wrapperComponent: Wrapper = Fragment,
 }: RequestResultListProps<T>) => {
   if (isLoading) return loadingComponent;
   if (isError) return errorComponent;
   if (data) {
     if (data.length === 0) return noDataComponent;
-    return data.map(itemRenderer);
+    return <Wrapper>{data.map(itemRenderer)}</Wrapper>;
   }
+};
+
+const MessageContainer = ({ children }: { children: JSX.Element }) => {
+  return <div className='flex justify-center'>{children}</div>;
 };

@@ -71,6 +71,7 @@ model InventoryMovement {
   id           String            @id @default(cuid())
   movementType Enum_MovementType
   quantity     Int
+  date         DateTime          @default(now())
   material     Material          @relation(fields: [materialId], references: [id])
   materialId   String
   createdBy    User              @relation(fields: [userId], references: [id])
