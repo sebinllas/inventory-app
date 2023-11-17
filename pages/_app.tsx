@@ -14,7 +14,7 @@ const poppins = Poppins({
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
     <SessionProvider session={session}>
-      <div className={poppins.className}>
+      <div className={`${poppins.className} h-full`}>
         <MainLayout excludedPages={['/']}>
           <Component {...pageProps} />
         </MainLayout>
