@@ -87,10 +87,14 @@ const toolTipHtml = ({
   return `
     <div class="bg-white p-2 shadow-md rounded-md">
       <h1 class="text-sm font-semibold">${new Date(data.x).toDateString()}</h1>
-      <p class="text-sm font-light">${data.y} Units</p>
-      <p class="text-sm font-light ${
-        delta > 0 ? 'text-emerald-600' : 'text-red-600'
-      }">${delta > 0 ? '+' : ''}${delta} Units</p>
+      <p class="text-sm font-light">Total: ${data.y} Units</p>
+      <p class="text-sm font-light">
+        Movement:  
+        <span class="${delta > 0 ? 'text-emerald-600' : 'text-red-600'}"> 
+          ${delta > 0 ? '+' : ''}${delta} 
+        </span>
+        Units
+      </p>
     </div>
   `;
 };
