@@ -9,8 +9,8 @@ export const Chip = ({
 }) => {
   return (
     <span
-      className={`px-2 inline-flex text-xs leading-5 font-semibold 
-        rounded-full w-fit mt-1 text-gray-800} ${className}`}
+      className={`text-gray-800} mt-1 inline-flex w-fit rounded-full 
+        px-2 text-xs font-semibold leading-5 ${className}`}
     >
       {children}
     </span>

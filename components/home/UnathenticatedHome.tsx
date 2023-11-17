@@ -12,17 +12,17 @@ interface HomePageProps {
 export const UnauthenticatedHome = ({ features }: HomePageProps) => {
   return (
     <main>
-      <section className='flex min-h-screen md:flex-row flex-col  justify-center px-40 gap-10 items-center relative'>
+      <section className='relative flex min-h-screen flex-col  items-center justify-center gap-10 px-40 md:flex-row'>
         <Image
           priority
           src='/assets/images/landing-image.webp'
           width={500}
           height={500}
           alt='illustrative inventory management'
-          className='rounded-full shrink min-w-[250px]'
+          className='min-w-[250px] shrink rounded-full'
         />
         <div>
-          <h1 className='text-4xl lg:text-6xl font-bold '>
+          <h1 className='text-4xl font-bold lg:text-6xl '>
             Welcome to your{' '}
             <span className='text-emerald-600'>inventory management</span> app!
           </h1>
@@ -30,7 +30,7 @@ export const UnauthenticatedHome = ({ features }: HomePageProps) => {
             Control your inventory, control your success.
           </p>
           <Button
-            className='mt-10 p-3 flex gap-3'
+            className='mt-10 flex gap-3 p-3'
             onClick={() => signIn('auth0')}
           >
             Login <IconLogin2 />
@@ -47,11 +47,11 @@ export const UnauthenticatedHome = ({ features }: HomePageProps) => {
           <IconChevronDown size={50} />
         </button>
       </section>
-      <section className='flex flex-col gap-8 justify-center items-center'>
+      <section className='flex flex-col items-center justify-center gap-8'>
         <p className='mt-5 font-light text-slate-500'>
           Here you can manage your
         </p>
-        <div className='flex justify-center flex-wrap gap-8 mb-40'>
+        <div className='mb-40 flex flex-wrap justify-center gap-8'>
           {features.map((item) => (
             <InfoCard
               key={item.title}

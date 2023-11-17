@@ -12,7 +12,7 @@ enum AllowedMethods {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === AllowedMethods.GET) {
     await checkAuth(req, res, ['ADMIN', 'USER']);
-    
+
     const query = req.query;
     const expandUser = checkReqQueryValue({
       param: 'expand',

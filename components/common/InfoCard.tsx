@@ -19,8 +19,8 @@ export const InfoCard = ({
   return (
     <WrapperComponent href={href ?? '#'}>
       <article
-        className='border border-slate-300 rounded-lg bg-neutral-100 
-        transition-transform overflow-hidden h-full flex flex-col w-64
+        className='flex h-full w-64 flex-col 
+        overflow-hidden rounded-lg border border-slate-300 bg-neutral-100 transition-transform
         hover:scale-105'
       >
         {image && (
@@ -32,16 +32,16 @@ export const InfoCard = ({
             className='rounded-lg shadow-md'
           />
         )}
-        <div className='p-4 flex flex-col justify-center'>
-          <h3 className='flex gap-3 items-center font-bold text-lg'>
+        <div className='flex flex-col justify-center p-4'>
+          <h3 className='flex items-center gap-3 text-lg font-bold'>
             {Icon && (
-              <span className='text-emerald-600 bg-emerald-600/20 rounded-full p-2 text-xl'>
+              <span className='rounded-full bg-emerald-600/20 p-2 text-xl text-emerald-600'>
                 {<Icon />}
               </span>
             )}
             {title}
           </h3>
-          <p className='font-light text-neutral-700 text-sm mt-2'>
+          <p className='mt-2 text-sm font-light text-neutral-700'>
             {description}
           </p>
         </div>

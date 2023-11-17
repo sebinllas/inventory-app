@@ -59,8 +59,8 @@ const InventoryPage = () => {
   return (
     <>
       <h1 className='page-title'>Inventory management</h1>
-      <div className='flex flex-col gap-6 items-center justify-center'>
-        <div className='flex items-center justify-center py-2 gap-6'>
+      <div className='flex flex-col items-center justify-center gap-6'>
+        <div className='flex items-center justify-center gap-6 py-2'>
           <LabeledSelect
             label=''
             defaultValue={selectedMaterialId || 'default'}
@@ -100,8 +100,8 @@ const InventoryPage = () => {
             />
           </>
         ) : (
-          <div className='container w-fit py-4 px-6 flex flex-col justify-center'>
-            <p className='text-center text-neutral-700 p-20'>
+          <div className='container flex w-fit flex-col justify-center px-6 py-4'>
+            <p className='p-20 text-center text-neutral-700'>
               Please select a material <br /> to view its movements
             </p>
           </div>

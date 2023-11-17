@@ -33,10 +33,10 @@ export const EditUserForm = ({
   };
   return (
     <form
-      className='container flex flex-col gap-4 h-fit p-4 mx-auto bg-white'
+      className='container mx-auto flex h-fit flex-col gap-4 bg-white p-4'
       onSubmit={handleSubmit}
     >
-      <h3 className='font-bold text-center'>
+      <h3 className='text-center font-bold'>
         User email:{' '}
         <span className='text-emerald-600'>{userToEdit?.email}</span>
       </h3>
@@ -55,7 +55,7 @@ export const EditUserForm = ({
           </option>
         ))}
       </LabeledSelect>
-      <div className='flex gap-2 justify-center'>
+      <div className='flex justify-center gap-2'>
         <Button type='submit' loading={loading}>
           Save
         </Button>

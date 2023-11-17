@@ -21,9 +21,9 @@ export const NavLink = ({
       <li key={label}>
         <Link
           href={href}
-          className={`border-slate-300 border hover:bg-slate-100 
-          rounded-full p-3 flex gap-3 font-bold ${
-            isSelected && 'text-emerald-600 bg-slate-100'
+          className={`flex gap-3 rounded-full 
+          border border-slate-300 p-3 font-bold hover:bg-slate-100 ${
+            isSelected && 'bg-slate-100 text-emerald-600'
           }`}
         >
           <Icon />

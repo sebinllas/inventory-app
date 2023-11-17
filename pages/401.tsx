@@ -7,14 +7,14 @@ export const Page401 = () => {
   const router = useRouter();
 
   return (
-    <div className='flex items-center h-full justify-center min-h-screen'>
+    <div className='flex h-full min-h-screen items-center justify-center'>
       <IconLock
-        className='text-emerald-600 inline'
+        className='inline text-emerald-600'
         size={200}
         strokeWidth={1.4}
       />
       <div>
-        <h1 className='text-4xl lg:text-6xl font-bold gap-6'>
+        <h1 className='gap-6 text-4xl font-bold lg:text-6xl'>
           Error <span className='text-emerald-600'>401</span>
           <br /> Access denied
         </h1>
@@ -22,11 +22,11 @@ export const Page401 = () => {
           The page you are trying to access has restricted access
         </p>
         <div className='flex gap-4'>
-          <Button className='mt-6 p-3 flex gap-3' onClick={() => router.back()}>
+          <Button className='mt-6 flex gap-3 p-3' onClick={() => router.back()}>
             Go Back <IconArrowBack />
           </Button>
           <Button
-            className='mt-6 p-3 flex gap-3'
+            className='mt-6 flex gap-3 p-3'
             styleType='secondary'
             onClick={() => router.replace('/')}
           >

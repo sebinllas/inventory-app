@@ -49,15 +49,15 @@ const MaterialPage = () => {
   return (
     <>
       <h1 className='page-title'>Materials</h1>
-      <div className='flex flex-col gap-6 items-center justify-center'>
+      <div className='flex flex-col items-center justify-center gap-6'>
         <ProtectedComponent>
-          <div className='flex items-center justify-center py-2 gap-6'>
+          <div className='flex items-center justify-center gap-6 py-2'>
             <Button onClick={() => modalRef.current?.showModal()}>
               Add a new material
             </Button>
           </div>
         </ProtectedComponent>
-        <div className='container w-fit mx-auto py-4 px-6'>
+        <div className='container mx-auto w-fit px-6 py-4'>
           <table>
             <thead>
               <tr>
@@ -92,7 +92,7 @@ const MaterialPage = () => {
 };
 
 const ProtectedMaterialPage = () => (
-  <ProtectedComponent allowedRoles={'any'}  fallback={<Page401 />} >
+  <ProtectedComponent allowedRoles={'any'} fallback={<Page401 />}>
     <MaterialPage />
   </ProtectedComponent>
 );

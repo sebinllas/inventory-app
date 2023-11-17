@@ -20,13 +20,10 @@ export const MainLayout = ({
 
   if (status == AuthStatus.LOADING)
     return (
-      <main className='h-screen flex justify-center items-center'>
+      <main className='flex h-screen items-center justify-center'>
         <Loading />
       </main>
     );
-  // if (status == AuthStatus.UNAUTHENTICATED && pathname !== '/') {
-  //   router.replace('/');
-  // }
 
   return (
     <div className='main-layout'>

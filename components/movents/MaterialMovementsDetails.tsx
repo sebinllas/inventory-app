@@ -29,7 +29,7 @@ export const MaterialMovementsDetails = ({
 
   return (
     <>
-      <div className='container w-fit py-4 px-6 flex flex-col justify-center'>
+      <div className='container flex w-fit flex-col justify-center px-6 py-4'>
         {renderContent()}
       </div>
       {data && data.length !== 0 && <MovementsChart data={data} />}

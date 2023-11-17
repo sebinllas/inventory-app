@@ -58,8 +58,8 @@ const UsersPage = () => {
   return (
     <>
       <h1 className='page-title'>Users</h1>
-      <div className='flex flex-col gap-6 items-center justify-center'>
-        <div className='container w-fit mx-auto py-4 px-6'>
+      <div className='flex flex-col items-center justify-center gap-6'>
+        <div className='container mx-auto w-fit px-6 py-4'>
           <table>
             <thead>
               <tr>

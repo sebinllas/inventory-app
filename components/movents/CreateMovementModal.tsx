@@ -43,9 +43,9 @@ const RenderComponent = (
     <dialog className='dialog' ref={ref}>
       <form
         onSubmit={handleSubmit}
-        className='container h-fit mx-auto bg-white p-4 gap-4 flex flex-col'
+        className='container mx-auto flex h-fit flex-col gap-4 bg-white p-4'
       >
-        <h3 className='font-bold text-center'>
+        <h3 className='text-center font-bold'>
           Material <span className='text-emerald-600'>{material.name}</span>
         </h3>
         <fieldset className='flex flex-col gap-4'>
@@ -72,7 +72,7 @@ const RenderComponent = (
             required
             min={1}
           />
-          <div className='flex gap-2 justify-center'>
+          <div className='flex justify-center gap-2'>
             <Button type='submit' loading={loading}>
               Submit
             </Button>

@@ -9,7 +9,7 @@ enum AllowedMethods {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await checkAuth(req, res, ['ADMIN']);
-  
+
   const materialId = req.query.materialId as string;
 
   if (req.method === AllowedMethods.PUT) {

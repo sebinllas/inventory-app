@@ -45,10 +45,10 @@ export const Sidebar = ({ user }: SidebarProps) => {
   const pathname = usePathname();
   return (
     <aside className='relative h-full bg-gray-100'>
-      <div className='flex flex-col-reverse md:flex-col md:top-0 gap-2 p-4 md:sticky top-0 left-0 max-h-screen overflow-y-auto h-full'>
-        <div className='flex flex-col justify-center h-full'>
+      <div className='left-0 top-0 flex h-full max-h-screen flex-col-reverse gap-2 overflow-y-auto p-4 md:sticky md:top-0 md:flex-col'>
+        <div className='flex h-full flex-col justify-center'>
           <SessionInfo user={user} />
-          <ul className='flex md:flex-col justify-center gap-4 py-4'>
+          <ul className='flex justify-center gap-4 py-4 md:flex-col'>
             {links.map((link) => (
               <NavLink
                 key={link.label}
@@ -64,33 +64,29 @@ export const Sidebar = ({ user }: SidebarProps) => {
 };
 
 const DefaultUserAvatar = () => (
-  <div
-    className='bg-slate-200 rounded-full w-24 h-24 overflow-hidden 
-  flex justify-center self-center'
-  >
+  <div className='flex h-24 w-24 justify-center self-center overflow-hidden rounded-full bg-slate-200'>
     <IconUserFilled size={120} />
   </div>
 );
 
 const SessionInfo = ({ user }: { user: NonNullable<Session['user']> }) => {
   return (
-    <div className='text-neutral-700 flex flex-col gap-2 rounded-lg items-center mt-2 w-full'>
+    <div className='mt-2 flex w-full flex-col items-center gap-2 rounded-lg text-neutral-700'>
       {user.name ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={user?.image || ''}
-          className='bg-slate-200 rounded-full w-24 h-24 ring-2 
-            ring-emerald-500 ring-offset-2 ring-offset-white'
           alt={`${user.name} avatar`}
+          className='h-24 w-24 rounded-full bg-slate-200 ring-2 ring-emerald-500 ring-offset-2 ring-offset-white'
         />
       ) : (
         <DefaultUserAvatar />
       )}
-      <p className='text-center font-light w-full text-slate-500'>
+      <p className='w-full text-center font-light text-slate-500'>
         {user.name}
       </p>
       <Button
-        className='whitespace-nowrap md:w-full flex gap-3 p-3'
+        className='flex gap-3 whitespace-nowrap p-3 md:w-full'
         onClick={() => signOut()}
       >
         <IconLogout2 /> Logout

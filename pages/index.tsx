@@ -58,7 +58,7 @@ export default Home;
 
 const LoadingHome = () => {
   return (
-    <main className='h-screen flex justify-center items-center'>
+    <main className='flex h-screen items-center justify-center'>
       <Loading />
     </main>
   );

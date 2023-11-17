@@ -8,13 +8,13 @@ interface HomePageProps {
 
 export const AuthenticatedHome = ({ features }: HomePageProps) => {
   return (
-    <div className='md:min-h-screen flex flex-col justify-center md:px-40 gap-10 items-center'>
-      <h1 className='text-3xl lg:text-6xl font-bold text-center mt-10'>
+    <div className='flex flex-col items-center justify-center gap-10 md:min-h-screen md:px-40'>
+      <h1 className='mt-10 text-center text-3xl font-bold lg:text-6xl'>
         Welcome to your{' '}
         <span className='text-emerald-600'>inventory management</span> app!
       </h1>
       <p className='mt-5 font-light text-slate-500'>Manage your</p>
-      <div className='flex flex-wrap gap-8 justify-center items-stretch'>
+      <div className='flex flex-wrap items-stretch justify-center gap-8'>
         {features.map((item) => (
           <ProtectedComponent
             key={item.title}

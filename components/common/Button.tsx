@@ -34,12 +34,12 @@ export const Button = ({
       {...rest}
       type={type}
       disabled={disabled || loading}
-      className={`${className} px-6 p-2 rounded-full font-bold disabled:opacity-60
+      className={`${className} rounded-full p-2 px-6 font-bold disabled:opacity-60
 				${stylesClassName[styleType]}
 			`}
     >
       {loading ? (
-        <div className='flex justify-center min-w-[60px]'>
+        <div className='flex min-w-[60px] justify-center'>
           <IconLoader2 className='animate-spin' />
         </div>
       ) : (

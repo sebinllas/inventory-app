@@ -39,7 +39,7 @@ const RenderComponent = (
     <dialog className='dialog' ref={ref}>
       <form
         onSubmit={handleSubmit}
-        className='container flex flex-col items-center gap-4 h-fit p-4 mx-auto bg-white'
+        className='container mx-auto flex h-fit flex-col items-center gap-4 bg-white p-4'
       >
         <LabeledInput
           label='Name'

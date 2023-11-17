@@ -9,8 +9,8 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 export const MovementsChart = ({ data }: { data: MovementResponse[] }) => {
   const chartData = useMemo(() => (data ? toStockPerDay(data) : []), [data]);
   return (
-    <div className='container py-4 px-6'>
-      <h2 className='text-2xl font-semibold text-center py-4'>
+    <div className='container px-6 py-4'>
+      <h2 className='py-4 text-center text-2xl font-semibold'>
         {chartData.length > 0 ? chartData[chartData.length - 1].y : 0} Units
         <span className='block text-sm font-light'>Current Stock</span>
       </h2>
